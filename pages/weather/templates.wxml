@@ -1,0 +1,86 @@
+<!-- templates/weather-template.wxml -->
+<!-- 定义天气类型模板 -->
+
+<!-- 模板1: 晴天 -->
+<template name="sunny">
+  <view class="sunny weather-template">
+    <image class="weather-icon" src="/res/icons/{{icon}}.svg" mode="aspectFit" />
+    <view class="weather-info">
+      <text class="weather-text">{{weather}}</text>
+      <view class="temp-range">
+        <text class="temp-max">{{tempMax}}°</text>
+        <text class="temp-min">{{tempMin}}°</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 模板2: 阴天/多云 -->
+<template name="cloudy">
+  <view class="cloudy weather-template">
+    <image class="weather-icon" src="/res/icons/{{icon}}.svg" mode="aspectFit" />
+    <view class="weather-info">
+      <text class="weather-text">{{weather}}</text>
+      <view class="temp-range">
+        <text class="temp-max">{{tempMax}}°</text>
+        <text class="temp-min">{{tempMin}}°</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 模板3: 雨天 -->
+<template name="rainy">
+  <view class="rainy weather-template">
+    <image class="weather-icon" src="/res/icons/{{icon}}.svg" mode="aspectFit" />
+    <view class="weather-info">
+      <text class="weather-text">{{weather}}</text>
+      <view class="temp-range">
+        <text class="temp-max">{{tempMax}}°</text>
+        <text class="temp-min">{{tempMin}}°</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 模板4: 雪天 -->
+<template name="snowy">
+  <view class="snowy weather-template">
+    <image class="weather-icon" src="/res/icons/{{icon}}.svg" mode="aspectFit" />
+    <view class="weather-info">
+      <text class="weather-text">{{weather}}</text>
+      <view class="temp-range">
+        <text class="temp-max">{{tempMax}}°</text>
+        <text class="temp-min">{{tempMin}}°</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 模板5: 雾/霾 -->
+<template name="foggy">
+  <view class="foggy weather-template">
+    <image class="weather-icon" src="/res/icons/{{icon}}.svg" mode="aspectFit" />
+    <view class="weather-info">
+      <text class="weather-text">{{weather}}</text>
+      <view class="temp-range">
+        <text class="temp-max">{{tempMax}}°</text>
+        <text class="temp-min">{{tempMin}}°</text>
+      </view>
+    </view>
+  </view>
+</template>
+<block wx:for="{{dailyForecast}}" wx:key="index">
+  <view class="forecast-day-container">
+    <!-- 日期和星期 -->
+    <view class="forecast-header">
+      <text class="day-week" wx:if="{{index === 0}}">今天</text>
+      <text class="day-week" wx:elif="{{index === 1}}">明天</text>
+      <text class="day-week" wx:else>{{item.week}}</text>
+      <text class="day-date">{{item.date}}</text>
+    </view>
+    
+    <!-- 使用动态模板，传递正确的数据 -->
+    <template is="{{item.template}}" data="{{weather: item.weather, tempMax: item.tempMax, tempMin: item.tempMin, icon: item.iconDay}}" />
+  </view>
+</block>

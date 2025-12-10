@@ -1,0 +1,166 @@
+/* film.wxss */
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+.header {
+  padding: 30rpx 0;
+  text-align: center;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.film-list {
+  flex: 1;
+  margin-top: -180rpx;
+}
+
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* 一行2-3个自适应布局 */
+.film-item {
+  width: calc((100% - 40rpx) / 3); /* 默认一行3个 */
+  margin-bottom: 30rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+/* 大屏幕（平板等）时改为一行3个 */
+@media (min-width: 768px) {
+  .film-item {
+    width: calc((100% - 40rpx) / 3);
+  }
+}
+
+/* 小屏幕时改为一行2个 */
+@media (max-width: 400px) {
+  .film-item {
+    width: calc((100% - 20rpx) / 2);
+  }
+}
+
+.film-item:active {
+  transform: scale(0.98);
+}
+
+.film-poster {
+  width: 100%;
+  height: 350rpx;
+  background-color: #e0e0e0;
+}
+
+.rank-badge {
+  position: absolute;
+  top: 10rpx;
+  left: 10rpx;
+  background-color: rgba(255, 165, 0, 0.85);
+  color: white;
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  font-weight: bold;
+}
+
+.film-title {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: bold;
+  padding: 12rpx 12rpx 6rpx;
+  line-height: 1.4;
+  height: 70rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.film-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12rpx 12rpx;
+}
+
+.rating-info {
+  display: flex;
+  align-items: center;
+}
+
+.rating-star {
+  color: #ffac2d;
+  font-size: 24rpx;
+  margin-right: 4rpx;
+}
+
+.rating-score {
+  font-size: 24rpx;
+  color: #ffac2d;
+  font-weight: bold;
+}
+
+.rating-count {
+  font-size: 20rpx;
+  color: #999;
+}
+
+/* 加载区域样式 */
+.loading-area {
+  padding: 40rpx 0;
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 26rpx;
+  color: #999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-active {
+  color: #007aff;
+}
+
+.loading-dots {
+  font-size: 36rpx;
+  letter-spacing: 4rpx;
+  margin-bottom: 10rpx;
+}
+
+.loading-dots text {
+  animation: dotFlashing 1.4s infinite linear;
+  animation-delay: calc(0.2s * var(--i));
+}
+
+.loading-dots text:nth-child(1) { --i: 0; }
+.loading-dots text:nth-child(2) { --i: 1; }
+.loading-dots text:nth-child(3) { --i: 2; }
+
+@keyframes dotFlashing {
+  0%, 60%, 100% {
+    opacity: 0.2;
+  }
+  30% {
+    opacity: 1;
+  }
+}

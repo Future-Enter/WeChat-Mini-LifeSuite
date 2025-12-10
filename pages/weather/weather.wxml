@@ -1,0 +1,78 @@
+<!--pages/weather/weather.wxml-->
+<!-- 导入模板文件 -->
+<import src="templates.wxml" />
+
+<view class="container">
+  <!-- 搜索区域 -->
+  <view class="search-box">
+    <form bindsubmit="searchCity">
+      <view class="input-group">
+        <input 
+          name="province" 
+          placeholder="请输入省份" 
+          value="{{formData.province}}"
+          bindinput="onInputChange"
+          data-field="province"
+        />
+        <input 
+          name="city" 
+          placeholder="请输入城市" 
+          value="{{formData.city}}"
+          bindinput="onInputChange"
+          data-field="city"
+        />
+        <button 
+          form-type="submit" 
+          type="primary" 
+          size="default"
+          loading="{{isLoading}}"
+        >
+          查询天气
+        </button>
+      </view>
+    </form>
+  </view>
+  
+  <!-- 当前天气 -->
+  <view class="current-section" wx:if="{{weatherInfo}}">
+    <view class="location-info">
+      <text class="city-name">{{LocationName}}当前天气</text>
+      <text class="update-time">更新时间: {{weatherInfo.updateTime ? weatherInfo.updateTime.slice(11, 16) : ''}}</text>
+    </view>
+    
+    <!-- 使用currentWeather模板 -->
+    <template is="currentWeather" data="{{...weatherInfo}}" />
+  </view>
+  
+  <!-- 7天天气预报 -->
+  <view class="forecast-section" wx:if="{{dailyForecast.length > 0}}">
+    <view class="section-title">
+      <text>未来7天预报</text>
+    </view>
+    
+    <scroll-view class="forecast-scroll" scroll-x="true">
+      <view class="forecast-days">
+        <!-- 循环显示每天，使用对应模板 -->
+        <block wx:for="{{dailyForecast}}" wx:key="index">
+          <view class="forecast-day-container">
+            <!-- 日期和星期 -->
+            <view class="forecast-header">
+              <text class="day-week" wx:if="{{index === 0}}">今天</text>
+              <text class="day-week" wx:elif="{{index === 1}}">明天</text>
+              <text class="day-week" wx:else>{{item.week}}</text>
+              <text class="day-date">{{item.date}}</text>
+            </view>
+            
+            <!-- 使用动态模板，传递正确的数据 -->
+            <template is="{{item.template}}" data="{{weather: item.weather, tempMax: item.tempMax, tempMin: item.tempMin, icon: item.iconDay}}" />
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+  
+  <!-- 无数据提示 -->
+  <view class="no-data" wx:if="{{!weatherInfo}}">
+    <text>请输入城市查询天气</text>
+  </view>
+</view>

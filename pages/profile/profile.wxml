@@ -1,0 +1,38 @@
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <block wx:if="{{isLogin}}">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-info">
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="location">{{userInfo.province}} · {{userInfo.city}}</text>
+      </view>
+    </block>
+    <block wx:else>
+      <image class="avatar default-avatar" src="/images/default-avatar.png" mode="aspectFill"></image>
+      <view class="user-info">
+        <text class="nickname">未登录</text>
+        <text class="tip">登录后查看更多精彩内容</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 登录按钮 -->
+  <view class="login-section">
+    <block wx:if="{{!isLogin}}">
+      <button class="login-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">微信一键登录</button>
+    </block>
+    <block wx:else>
+      <button class="logout-btn" bindtap="onLogout">退出登录</button>
+    </block>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-section" wx:if="{{isLogin}}">
+    <view class="stat-item">
+      <text class="stat-value">{{stats.favorites}}</text>
+      <text class="stat-label"></text>
+    </view>
+  </view>
+  
+</view>

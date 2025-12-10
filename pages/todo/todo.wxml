@@ -1,0 +1,274 @@
+<!-- 页面容器 -->
+<view class="container">
+  <!-- 标题区域 -->
+  <view class="header">
+    <view class="title-section">
+      <text class="main-title">我的待办</text>
+      <text class="sub-title">专注每一件重要的事</text>
+    </view>
+    <view class="date-section">
+      <text class="current-date">{{currentDate}}</text>
+      <text class="current-time">{{currentTime}}</text>
+    </view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-container">
+    <view class="stats-card">
+      <view class="stats-icon total">📋</view>
+      <view class="stats-info">
+        <text class="stats-number">{{totalCount}}</text>
+        <text class="stats-label">总任务</text>
+      </view>
+    </view>
+    <view class="stats-card">
+      <view class="stats-icon pending">⏳</view>
+      <view class="stats-info">
+        <text class="stats-number">{{pendingCount}}</text>
+        <text class="stats-label">待完成</text>
+      </view>
+    </view>
+    <view class="stats-card">
+      <view class="stats-icon completed">✅</view>
+      <view class="stats-info">
+        <text class="stats-number">{{completedCount}}</text>
+        <text class="stats-label">已完成</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加待办区域 -->
+  <view class="add-todo-card">
+    <view class="card-header">
+      <text class="card-title">添加新任务</text>
+      <view class="priority-selector">
+        <text 
+          class="priority-option {{priority === 1 ? 'active' : ''}}" 
+          data-priority="1"
+          bindtap="setPriority"
+        >低</text>
+        <text 
+          class="priority-option {{priority === 2 ? 'active' : ''}}" 
+          data-priority="2"
+          bindtap="setPriority"
+        >中</text>
+        <text 
+          class="priority-option {{priority === 3 ? 'active' : ''}}" 
+          data-priority="3"
+          bindtap="setPriority"
+        >高</text>
+      </view>
+    </view>
+    <view class="input-container">
+      <input 
+        class="todo-input" 
+        placeholder="今天要完成什么？" 
+        placeholder-class="placeholder"
+        value="{{newTodoText}}"
+        bindinput="onInputChange"
+        bindconfirm="addTodo"
+        focus="{{autoFocus}}"
+      />
+      <button 
+        class="add-btn {{newTodoText.trim() ? 'active' : 'disabled'}}" 
+        bindtap="addTodo"
+        hover-class="hover-effect"
+      >
+        <text class="add-icon">+</text>
+        <text class="add-text">添加</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 筛选和排序 -->
+  <view class="filter-section">
+    <view class="filter-tabs">
+      <view 
+        class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" 
+        bindtap="filterTodos" 
+        data-filter="all"
+      >
+        全部
+        <view class="filter-badge">{{totalCount}}</view>
+      </view>
+      <view 
+        class="filter-tab {{currentFilter === 'pending' ? 'active' : ''}}" 
+        bindtap="filterTodos" 
+        data-filter="pending"
+      >
+        待办
+        <view class="filter-badge">{{pendingCount}}</view>
+      </view>
+      <view 
+        class="filter-tab {{currentFilter === 'completed' ? 'active' : ''}}" 
+        bindtap="filterTodos" 
+        data-filter="completed"
+      >
+        已完成
+        <view class="filter-badge">{{completedCount}}</view>
+      </view>
+    </view>
+    <view class="sort-options">
+      <text 
+        class="sort-option {{sortBy === 'time' ? 'active' : ''}}" 
+        bindtap="setSort" 
+        data-sort="time"
+      >
+        时间
+      </text>
+      <text 
+        class="sort-option {{sortBy === 'priority' ? 'active' : ''}}" 
+        bindtap="setSort" 
+        data-sort="priority"
+      >
+        优先级
+      </text>
+    </view>
+  </view>
+
+  <!-- 待办事项列表 -->
+  <scroll-view class="todo-list" scroll-y="{{true}}" scroll-with-animation>
+  <block wx:if="{{filteredTodos.length > 0}}">
+    <view 
+      class="todo-item {{todo.completed ? 'completed' : ''}} priority-{{todo.priority || 2}}" 
+      wx:for="{{filteredTodos}}" 
+      wx:key="id"
+      data-index="{{index}}"
+      animation="{{todo.animationData}}"
+    >
+      <!-- 优先级指示器 -->
+      <view class="priority-indicator"></view>
+      
+      <!-- 完成状态复选框 -->
+      <view 
+        class="checkbox {{todo.completed ? 'checked' : ''}}" 
+        bindtap="toggleTodoStatus"
+        data-id="{{todo.id}}"
+      >
+        <view class="checkbox-inner">
+          <text class="checkmark" wx:if="{{todo.completed}}">✓</text>
+        </view>
+      </view>
+      
+      <!-- 待办内容 -->
+      <view class="todo-content" bindtap="toggleTodoStatus" data-id="{{todo.id}}">
+        <view class="todo-main">
+          <text class="todo-text">{{todo.text}}</text>
+          <view class="todo-tags">
+            <view class="priority-tag priority-{{todo.priority || 2}}">
+              {{todo.priority === 1 ? '低' : todo.priority === 3 ? '高' : '中'}}优先级
+            </view>
+            <view class="time-tag" wx:if="{{todo.time}}">
+              {{todo.time}}
+            </view>
+          </view>
+        </view>
+        <view class="todo-actions">
+          <view 
+            class="action-btn edit" 
+            bindtap="editTodo" 
+            data-id="{{todo.id}}"
+            hover-class="hover-effect"
+          >
+            编辑
+          </view>
+          <view 
+            class="action-btn delete" 
+            bindtap="deleteTodo" 
+            data-id="{{todo.id}}"
+            hover-class="hover-effect"
+          >
+            删除
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+    
+    <!-- 空状态提示 -->
+    <block wx:else>
+      <view class="empty-state">
+        <image src="/images/empty-todo.svg" class="empty-image" mode="aspectFit"></image>
+        <text class="empty-title">
+          {{currentFilter === 'all' ? '还没有待办事项' : 
+            currentFilter === 'pending' ? '没有待办事项' : 
+            '还没有完成的任务'}}
+        </text>
+        <text class="empty-subtitle">
+          {{currentFilter === 'all' ? '点击下方"+"按钮添加第一个任务吧！' : 
+            currentFilter === 'pending' ? '太棒了！所有任务都已完成' : 
+            '加油，开始处理你的待办事项吧'}}
+        </text>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions" wx:if="{{totalCount > 0}}">
+    <view 
+      class="action-btn bottom-btn complete-all {{completedCount === totalCount ? 'disabled' : ''}}" 
+      bindtap="completeAll"
+      hover-class="hover-effect"
+    >
+      <text class="btn-icon">✓</text>
+      <text class="btn-text">全部完成</text>
+    </view>
+    <view 
+      class="action-btn bottom-btn clear-completed {{completedCount === 0 ? 'disabled' : ''}}" 
+      bindtap="clearCompleted"
+      hover-class="hover-effect"
+    >
+      <text class="btn-icon">×</text>
+      <text class="btn-text">清除已完成</text>
+    </view>
+  </view>
+
+  <!-- 编辑模态框 -->
+  <view class="modal {{showEditModal ? 'show' : ''}}">
+    <view class="modal-overlay" bindtap="closeEditModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">编辑待办事项</text>
+        <view class="modal-close" bindtap="closeEditModal">×</view>
+      </view>
+      <view class="modal-body">
+        <input 
+          class="modal-input" 
+          placeholder="请输入待办事项..." 
+          value="{{editText}}"
+          bindinput="onEditInputChange"
+          focus
+        />
+        <view class="modal-priority">
+          <text class="modal-label">优先级：</text>
+          <view class="priority-selector">
+            <text 
+              class="priority-option {{editPriority === 1 ? 'active' : ''}}" 
+              data-priority="1"
+              bindtap="setEditPriority"
+            >低</text>
+            <text 
+              class="priority-option {{editPriority === 2 ? 'active' : ''}}" 
+              data-priority="2"
+              bindtap="setEditPriority"
+            >中</text>
+            <text 
+              class="priority-option {{editPriority === 3 ? 'active' : ''}}" 
+              data-priority="3"
+              bindtap="setEditPriority"
+            >高</text>
+          </view>
+        </view>
+      </view>
+      <view class="modal-footer">
+        <view class="modal-btn cancel" bindtap="closeEditModal">取消</view>
+        <view class="modal-btn confirm" bindtap="saveEdit">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载动画 -->
+  <view class="loading {{isLoading ? 'show' : ''}}">
+    <view class="loading-spinner"></view>
+  </view>
+</view>

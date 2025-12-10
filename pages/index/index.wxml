@@ -1,0 +1,66 @@
+<view class="container">
+
+<view class="header-area">
+    <text class="welcome-text">欢迎回来！</text>
+</view>
+
+<view class="center-interaction-area">
+    
+    <view 
+      class="bubble" 
+      data-bubble="{{bubbles[currentBubbleIndex]}}" 
+      bindtap="handleBubbleTap"
+    >
+        <text>{{bubbles[currentBubbleIndex].text}}</text>
+    </view>
+    
+    <view class="avatar-face">
+        <image class="avatar-img" src="/images/avatar_standby.png"></image>
+    </view>
+    <!-- index.wxml 底部导航部分 - 对应更新 -->
+<view class="bottom-nav">
+    <view class="nav-item {{activeNav === 'weather' ? 'active' : ''}}" 
+          data-target="weather" 
+          bindtap="navigateToPage"
+          bindtouchstart="handleTouchStart"
+          bindtouchend="handleTouchEnd">
+        <view class="nav-icon-wrapper">
+            <image class="nav-icon" src="/images/icon_weather.png"></image>
+        </view>
+        <text class="nav-text">天气</text>
+    </view>
+    <view class="nav-item {{activeNav === 'film' ? 'active' : ''}} has-badge" 
+          data-target="film" 
+          bindtap="navigateToPage"
+          bindtouchstart="handleTouchStart"
+          bindtouchend="handleTouchEnd">
+        <view class="nav-icon-wrapper">
+            <image class="nav-icon" src="/images/icon_film.png"></image>
+        </view>
+        <text class="nav-text">电影</text>
+    </view>
+    <view class="nav-item {{activeNav === 'todo' ? 'active' : ''}}" 
+          data-target="todo" 
+          bindtap="navigateToPage"
+          bindtouchstart="handleTouchStart"
+          bindtouchend="handleTouchEnd">
+        <view class="nav-icon-wrapper">
+            <image class="nav-icon" src="/images/icon_todo.png"></image>
+        </view>
+        <text class="nav-text">待办</text>
+    </view>
+    <view class="nav-item {{activeNav === 'profile' ? 'active' : ''}}" 
+          data-target="profile" 
+          bindtap="navigateToPage"
+          bindtouchstart="handleTouchStart"
+          bindtouchend="handleTouchEnd">
+        <view class="nav-icon-wrapper">
+            <image class="nav-icon" src="/images/icon_profile.png"></image>
+        </view>
+        <text class="nav-text">我的</text>
+    </view>
+</view>
+</view>
+
+
+</view>

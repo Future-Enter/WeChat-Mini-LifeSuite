@@ -1,0 +1,357 @@
+/* pages/index/index.wxss - 优化版 */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+}
+
+/* 背景装饰 */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 400rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* 1. 顶部区域优化 */
+.header-area {
+  padding: 40rpx 30rpx 20rpx;
+  text-align: center;
+}
+.welcome-text {
+  font-size: 38rpx;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 2. 中部核心交互区优化 */
+.center-interaction-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* 2.1 气泡样式优化 */
+.bubble {
+  padding: 24rpx 36rpx;
+  background: linear-gradient(145deg, #ffffff, #f7f9fc);
+  border-radius: 50rpx;
+  box-shadow: 
+    0 8rpx 24rpx rgba(0, 0, 0, 0.12),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.8);
+  margin-bottom: 40rpx;
+  font-size: 34rpx;
+  color: #2c3e50;
+  max-width: 80%;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1rpx solid rgba(255, 255, 255, 0.3);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10rpx) rotate(1deg); }
+}
+
+/* 气泡尾巴 */
+.bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -16rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20rpx solid transparent;
+  border-right: 20rpx solid transparent;
+  border-top: 20rpx solid #ffffff;
+  filter: drop-shadow(0 4rpx 4rpx rgba(0, 0, 0, 0.1));
+}
+
+/* 气泡点击效果 */
+.bubble:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 2.2 头像区域优化 */
+.avatar-face {
+  width: 220rpx;
+  height: 220rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(145deg, #ffd966, #ffcc33);
+  box-shadow: 
+    0 12rpx 32rpx rgba(0, 0, 0, 0.2),
+    inset 0 -4rpx 8rpx rgba(255, 209, 102, 0.5);
+  position: relative;
+  animation: pulse 4s ease-in-out infinite;
+  border: 6rpx solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.2);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 16rpx 40rpx rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* 头像内发光效果 */
+.avatar-face::before {
+  content: '';
+  position: absolute;
+  top: -2rpx;
+  left: -2rpx;
+  right: -2rpx;
+  bottom: -2rpx;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+}
+
+/* 3. 底部导航区 - 高级优化版 */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 32rpx 0 40rpx;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(30rpx) saturate(180%);
+  -webkit-backdrop-filter: blur(30rpx) saturate(180%);
+  border-top-left-radius: 48rpx;
+  border-top-right-radius: 48rpx;
+  box-shadow: 
+    0 -8rpx 32rpx rgba(0, 0, 0, 0.08),
+    0 1rpx 0 rgba(255, 255, 255, 0.8) inset;
+  margin: 0 24rpx;
+  position: relative;
+  overflow: hidden;
+  border: 1rpx solid rgba(255, 255, 255, 0.4);
+}
+
+/* 导航栏背景渐变边框效果 */
+.bottom-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3rpx;
+  background: linear-gradient(90deg, 
+    #667eea 0%, 
+    #764ba2 25%, 
+    #f093fb 50%, 
+    #f5576c 75%, 
+    #667eea 100%);
+  opacity: 0.3;
+}
+
+/* 添加悬浮背景波纹效果 */
+.bottom-nav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 0%, 
+    rgba(102, 126, 234, 0.1) 0%, 
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  padding: 16rpx 0;
+  border-radius: 24rpx;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* 导航项点击效果 */
+.nav-item:active {
+  background: rgba(102, 126, 234, 0.08);
+  transform: translateY(-4rpx);
+}
+
+/* 激活状态指示器 */
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: -12rpx;
+  width: 40rpx;
+  height: 4rpx;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2rpx;
+  box-shadow: 0 2rpx 8rpx rgba(102, 126, 234, 0.4);
+  animation: indicatorAppear 0.3s ease-out;
+}
+
+@keyframes indicatorAppear {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* 激活状态背景气泡效果 */
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80rpx;
+  height: 80rpx;
+  background: radial-gradient(circle, 
+    rgba(102, 126, 234, 0.15) 0%, 
+    rgba(118, 75, 162, 0.1) 50%, 
+    transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: ripple 2s infinite;
+}
+
+@keyframes ripple {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* 图标容器 */
+.nav-icon-wrapper {
+  position: relative;
+  margin-bottom: 12rpx;
+  padding: 8rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 
+    0 4rpx 12rpx rgba(0, 0, 0, 0.06),
+    0 1rpx 0 rgba(255, 255, 255, 0.8) inset;
+  transition: all 0.3s ease;
+}
+
+.nav-icon {
+  width: 48rpx;
+  height: 48rpx;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.1));
+}
+
+/* 图标点击效果 */
+.nav-item:active .nav-icon-wrapper {
+  transform: translateY(-4rpx) scale(1.05);
+  box-shadow: 
+    0 8rpx 20rpx rgba(102, 126, 234, 0.2),
+    0 1rpx 0 rgba(255, 255, 255, 0.8) inset;
+}
+
+.nav-item:active .nav-icon {
+  filter: 
+    drop-shadow(0 4rpx 8rpx rgba(102, 126, 234, 0.3))
+    brightness(1.1);
+}
+
+/* 文字标签样式 */
+.nav-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #5a6c7d;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4rpx);
+}
+
+/* 文字点击效果 */
+.nav-item:active .nav-text {
+  color: #667eea;
+  font-weight: 600;
+  transform: translateY(-2rpx);
+  background: rgba(102, 126, 234, 0.1);
+  box-shadow: 0 2rpx 8rpx rgba(102, 126, 234, 0.1);
+}
+
+/* 添加徽标/小红点（示例） */
+.nav-item.has-badge::before {
+  content: '';
+  position: absolute;
+  top: 8rpx;
+  right: 40rpx;
+  width: 16rpx;
+  height: 16rpx;
+  background: linear-gradient(135deg, #f5576c, #f093fb);
+  border-radius: 50%;
+  border: 2rpx solid white;
+  box-shadow: 0 2rpx 6rpx rgba(245, 87, 108, 0.3);
+  z-index: 2;
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 375px) {
+  .bottom-nav {
+    padding: 28rpx 0 36rpx;
+    border-radius: 40rpx;
+  }
+  
+  .nav-icon {
+    width: 44rpx;
+    height: 44rpx;
+  }
+  
+  .nav-text {
+    font-size: 22rpx;
+  }
+}

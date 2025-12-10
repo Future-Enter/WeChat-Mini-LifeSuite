@@ -1,0 +1,61 @@
+<!-- film.wxml -->
+<view class="container">
+  <!-- 电影列表 -->
+  <scroll-view 
+    class="film-list"
+    scroll-y
+    bindscrolltolower="loadMore"
+    enable-back-to-top="true"
+    lower-threshold="50">
+    
+    <view class="grid-container">
+      <block wx:for="{{filmList}}" wx:key="id">
+        <view class="film-item" bindtap="goToDetail" data-id="{{item.id}}">
+          <!-- 电影封面 -->
+          <image 
+            class="film-poster" 
+            src="{{item.poster}}" 
+            mode="aspectFill"
+            lazy-load="true"
+          ></image>
+          
+          <!-- 排名标签 -->
+          <view class="rank-badge">No.{{item.no}}</view>
+          
+          <!-- 电影标题 -->
+          <view class="film-title">{{item.title}}</view>
+          
+          <!-- 评分信息 -->
+          <view class="film-rating">
+            <view class="rating-info">
+              <text class="rating-star">★</text>
+              <text class="rating-score">{{item.average}}</text>
+            </view>
+            <view class="rating-count" wx:if="{{item.rating_count}}">
+              {{formatCount(item.rating_count)}}人
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+    
+    <!-- 加载提示 -->
+    <view class="loading-area">
+      <view wx:if="{{!hasMore && filmList.length > 0}}" class="loading-text">
+        <text>我是有底线的~</text>
+      </view>
+      <view wx:elif="{{isLoading}}" class="loading-text loading-active">
+        <view class="loading-dots">
+          <text>.</text>
+          <text>.</text>
+          <text>.</text>
+        </view>
+        <text>加载中</text>
+      </view>
+      <view wx:elif="{{hasMore && !isLoading && filmList.length > 0}}" class="loading-text">
+        <text>上拉加载更多</text>
+      </view>
+    </view>
+    
+  </scroll-view>
+</view>
