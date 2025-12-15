@@ -1,0 +1,102 @@
+<!-- index.wxml - 明亮主题 -->
+<view class="container">
+  <!-- 顶部欢迎区域 -->
+  <view class="header-area">
+    <text class="welcome-text">你好！</text>
+    <text class="subtitle">今天过得怎么样？</text>
+  </view>
+  <view 
+      class="bubble {{bubbleAnimation}}" 
+      data-bubble="{{bubbles[currentBubbleIndex]}}" 
+      bindtap="handleBubbleTap"
+    >
+      <text class="bubble-text">{{bubbles[currentBubbleIndex].text}}</text>
+      <view class="bubble-tail"></view>
+    </view>
+  <!-- 中部：动画眼睛核心区域 -->
+  <view class="eyes-section">
+    <view class="eyes-container" id="eyesContainer">
+      <!-- 左眼 -->
+      <view class="eye left" id="leftEye" style="{{leftEyeStyle}}"></view>
+      <!-- 右眼 -->
+      <view class="eye right" id="rightEye" style="{{rightEyeStyle}}"></view>
+    </view>
+    
+    <!-- 眼睛周围装饰 -->
+    <view class="eye-decoration"></view>
+  </view>
+
+  <!-- 对话气泡区域 -->
+  <view class="bubbles-section">
+    <!-- 快速回复选项 -->
+    <view class="quick-replies" wx:if="{{showQuickReplies}}">
+      <view 
+        class="reply-option" 
+        wx:for="{{quickReplies}}" 
+        wx:key="id"
+        data-index="{{index}}"
+        bindtap="handleQuickReply"
+      >
+        <text>{{item.text}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部功能导航 -->
+  <view class="bottom-nav">
+    <view class="nav-grid">
+      <view 
+        class="nav-cell {{activeNav === 'weather' ? 'active' : ''}}" 
+        data-target="weather" 
+        bindtap="navigateToPage"
+        bindtouchstart="handleNavTouchStart"
+        bindtouchend="handleNavTouchEnd"
+      >
+        <view class="nav-icon-wrapper">
+          <image class="nav-icon" src="/res/weather.png"></image>
+        </view>
+        <text class="nav-label">天气</text>
+        <view class="nav-dot" wx:if="{{navNotifications.weather}}"></view>
+      </view>
+      
+      <view 
+        class="nav-cell {{activeNav === 'film' ? 'active' : ''}}" 
+        data-target="film" 
+        bindtap="navigateToPage"
+        bindtouchstart="handleNavTouchStart"
+        bindtouchend="handleNavTouchEnd"
+      >
+        <view class="nav-icon-wrapper">
+          <image class="nav-icon" src="/res/film.png"></image>
+        </view>
+        <text class="nav-label">电影</text>
+      </view>
+      
+      <view 
+        class="nav-cell {{activeNav === 'todo' ? 'active' : ''}}" 
+        data-target="todo" 
+        bindtap="navigateToPage"
+        bindtouchstart="handleNavTouchStart"
+        bindtouchend="handleNavTouchEnd"
+      >
+        <view class="nav-icon-wrapper">
+          <image class="nav-icon" src="/res/todo.png"></image>
+        </view>
+        <text class="nav-label">待办</text>
+      </view>
+      
+      <view 
+        class="nav-cell {{activeNav === 'chat' ? 'active' : ''}}" 
+        data-target="chat" 
+        bindtap="navigateToPage"
+        bindtouchstart="handleNavTouchStart"
+        bindtouchend="handleNavTouchEnd"
+      >
+        <view class="nav-icon-wrapper">
+          <image class="nav-icon" src="/res/chat.png"></image>
+        </view>
+        <text class="nav-label">对话</text>
+      </view>
+    </view>
+  </view>
+</view>

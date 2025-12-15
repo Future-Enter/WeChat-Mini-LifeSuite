@@ -1,0 +1,170 @@
+<!-- templates/weather-template.wxml -->
+
+<!-- 当前天气模板 -->
+<template name="currentWeather">
+  <view class="current-weather-content">
+    <view class="horizion-view">
+      <view class="temperature-section">
+        <text class="temperature">{{temperature}}°</text>
+        <text class="feels-like">体感 {{feelsLike}}°</text>
+      </view>
+      <view class="weather-icon-large">
+        <image src="/res/icons/{{icon}}.svg" mode="aspectFit" />
+      </view>
+    </view>
+    <view class="weather-details-grid">
+      <view class="detail-item">
+        <text class="detail-icon">🚩</text>
+        <text class="detail-label">风向</text>
+        <text class="detail-value">{{windDirection}} {{windSpeed}}km/h</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-icon">💧</text>
+        <text class="detail-label">湿度</text>
+        <text class="detail-value">{{humidity}}%</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-icon">🌡️</text>
+        <text class="detail-label">气压</text>
+        <text class="detail-value">{{pressure}}hPa</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-icon">👁️</text>
+        <text class="detail-label">能见度</text>
+        <text class="detail-value">{{visibility}}km</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 晴天模板 -->
+<template name="sunny">
+  <view class="weather-template sunny-template">
+    <view class="template-content">
+      <image class="template-icon" src="/res/icons/{{iconDay}}.svg" mode="aspectFit" />
+      <view class="template-info">
+        <text class="weather-text">{{weather}}</text>
+        <view class="temp-range">
+          <text class="temp-max">{{tempMax}}°</text>
+          <text class="temp-separator">/</text>
+          <text class="temp-min">{{tempMin}}°</text>
+        </view>
+      </view>
+    </view>
+    <view class="weather-details-mini">
+      <text class="detail-mini">💧 {{precip}}%</text>
+      <text class="detail-mini">💨 {{windScaleDay}}级</text>
+      <text class="detail-mini">💦 {{humidity}}%</text>
+    </view>
+  </view>
+</template>
+
+<!-- 多云模板 -->
+<template name="cloudy">
+  <view class="weather-template cloudy-template">
+    <view class="template-content">
+      <image class="template-icon" src="/res/icons/{{iconDay}}.svg" mode="aspectFit" />
+      <view class="template-info">
+        <text class="weather-text">{{weather}}</text>
+        <view class="temp-range">
+          <text class="temp-max">{{tempMax}}°</text>
+          <text class="temp-separator">/</text>
+          <text class="temp-min">{{tempMin}}°</text>
+        </view>
+      </view>
+    </view>
+    <view class="weather-details-mini">
+      <text class="detail-mini">💧 {{precip}}%</text>
+      <text class="detail-mini">💨 {{windScaleDay}}级</text>
+      <text class="detail-mini">💦 {{humidity}}%</text>
+    </view>
+  </view>
+</template>
+
+<!-- 雨天模板 -->
+<template name="rainy">
+  <view class="weather-template rainy-template">
+    <view class="template-content">
+      <image class="template-icon" src="/res/icons/{{iconDay}}.svg" mode="aspectFit" />
+      <view class="template-info">
+        <text class="weather-text">{{weather}}</text>
+        <view class="temp-range">
+          <text class="temp-max">{{tempMax}}°</text>
+          <text class="temp-separator">/</text>
+          <text class="temp-min">{{tempMin}}°</text>
+        </view>
+      </view>
+    </view>
+    <view class="weather-details-mini">
+      <text class="detail-mini">🌧️ {{precip}}%</text>
+      <text class="detail-mini">💨 {{windScaleDay}}级</text>
+      <text class="detail-mini">💦 {{humidity}}%</text>
+    </view>
+  </view>
+</template>
+
+<!-- 雪天模板 -->
+<template name="snowy">
+  <view class="weather-template snowy-template">
+    <view class="template-content">
+      <image class="template-icon" src="/res/icons/{{iconDay}}.svg" mode="aspectFit" />
+      <view class="template-info">
+        <text class="weather-text">{{weather}}</text>
+        <view class="temp-range">
+          <text class="temp-max">{{tempMax}}°</text>
+          <text class="temp-separator">/</text>
+          <text class="temp-min">{{tempMin}}°</text>
+        </view>
+      </view>
+    </view>
+    <view class="weather-details-mini">
+      <text class="detail-mini">❄️ {{precip}}%</text>
+      <text class="detail-mini">💨 {{windScaleDay}}级</text>
+      <text class="detail-mini">💦 {{humidity}}%</text>
+    </view>
+  </view>
+</template>
+
+<!-- 雾天模板 -->
+<template name="foggy">
+  <view class="weather-template foggy-template">
+    <view class="template-content">
+      <image class="template-icon" src="/res/icons/{{iconDay}}.svg" mode="aspectFit" />
+      <view class="template-info">
+        <text class="weather-text">{{weather}}</text>
+        <view class="temp-range">
+          <text class="temp-max">{{tempMax}}°</text>
+          <text class="temp-separator">/</text>
+          <text class="temp-min">{{tempMin}}°</text>
+        </view>
+      </view>
+    </view>
+    <view class="weather-details-mini">
+      <text class="detail-mini">🌫️ {{precip}}%</text>
+      <text class="detail-mini">💨 {{windScaleDay}}级</text>
+      <text class="detail-mini">💦 {{humidity}}%</text>
+    </view>
+  </view>
+</template>
+
+<!-- 默认模板 -->
+<template name="default">
+  <view class="weather-template default-template">
+    <view class="template-content">
+      <image class="template-icon" src="/res/icons/{{iconDay}}.svg" mode="aspectFit" />
+      <view class="template-info">
+        <text class="weather-text">{{weather}}</text>
+        <view class="temp-range">
+          <text class="temp-max">{{tempMax}}°</text>
+          <text class="temp-separator">/</text>
+          <text class="temp-min">{{tempMin}}°</text>
+        </view>
+      </view>
+    </view>
+    <view class="weather-details-mini">
+      <text class="detail-mini">💧 {{precip}}%</text>
+      <text class="detail-mini">💨 {{windScaleDay}}级</text>
+      <text class="detail-mini">💦 {{humidity}}%</text>
+    </view>
+  </view>
+</template>

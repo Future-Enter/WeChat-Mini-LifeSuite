@@ -1,0 +1,134 @@
+<!-- filmDetail.wxml -->
+<view class="detail-container">
+  <!-- 顶部背景图 -->
+  <view class="header-bg">
+    <image 
+      src="{{filmData.poster}}" 
+      mode="aspectFill"
+      class="bg-image"
+    ></image>
+    <view class="bg-overlay"></view>
+  </view>
+  <!-- 电影海报和基本信息 -->
+  <view class="film-header">
+    <image 
+      src="{{filmData.poster}}" 
+      mode="aspectFill"
+      class="detail-poster"
+    ></image>
+    
+    <view class="film-info">
+      <view class="film-title">{{filmData.title}}</view>
+      <view class="original-title" wx:if="{{filmData.org_title}}">
+        {{filmData.org_title}}
+      </view>
+      
+      <view class="rating-section">
+        <view class="rating-score">
+          <text class="score">{{filmData.average || 0}}</text>
+          <text class="full-score">/10</text>
+        </view>
+        <view class="rating-stars">
+        <block wx:for="{{5}}" wx:key="index">
+          <!-- 如果是整数星 -->
+          <text wx:if="{{filmData.average >= (index + 1) * 2}}" class="star filled">★</text>
+          <!-- 如果是半星 -->
+          <text wx:elif="{{filmData.average > index * 2 && filmData.average < (index + 1) * 2}}" class="star half">☆</text>
+          <!-- 如果是空星 -->
+          <text wx:else class="star">☆</text>
+        </block>
+      <text class="rating-text">{{filmData.average}}</text>
+    </view>
+        <view class="rating-count">
+          {{filmData.rating_count || 0}}人评价
+        </view>
+      </view>
+      
+      <view class="meta-info">
+        <view wx:if="{{filmData.year}}">{{filmData.year}}年</view>
+        <view wx:if="{{filmData.genres}}">{{filmData.genres.join(' / ')}}</view>
+        <view wx:if="{{filmData.durations}}">{{filmData.durations[0]}}</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 演职人员 -->
+  <view class="section" wx:if="{{filmData.celebrities && filmData.celebrities.length}}">
+    <view class="section-title">演职人员</view>
+    <scroll-view class="cast-list" scroll-x>
+      <block wx:for="{{filmData.celebrities}}" wx:key="id">
+        <view class="cast-item">
+          <image 
+            src="{{item.avatar}}" 
+            mode="aspectFill"
+            class="cast-avatar"
+          ></image>
+          <view class="cast-name">{{item.name.split(' ')[0]}}</view>
+          <view class="cast-role">{{item.role}}</view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+  
+  <!-- 剧情简介 -->
+  <view class="section" wx:if="{{filmData.summary}}">
+    <view class="section-title">剧情简介</view>
+    <view class="summary-content">
+      <view class="summary-text {{isSummaryExpanded ? 'expanded' : 'collapsed'}}">
+        <text>{{filmData.summary}}</text>
+      </view>
+      <view 
+        class="expand-btn" 
+        bindtap="toggleSummary"
+        wx:if="{{filmData.summary && filmData.summary.length > summaryMaxLength}}"
+      >
+        <text>{{isSummaryExpanded ? '收起' : '展开'}}</text>
+        <text class="expand-icon">{{isSummaryExpanded ? '▲' : '▼'}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 剧照 -->
+  <view class="section" wx:if="{{filmData.photos && filmData.photos.length}}">
+    <view class="section-title">剧照</view>
+    <scroll-view class="photos-list" scroll-x>
+      <block wx:for="{{filmData.photos.slice(0, 10)}}" wx:key="*this">
+        <image 
+          src="{{item}}" 
+          mode="aspectFill"
+          class="photo-item"
+          bindtap="previewImage"
+          data-index="{{index}}"
+        ></image>
+      </block>
+    </scroll-view>
+  </view>
+  
+  <!-- 基本信息 -->
+  <view class="section info-section">
+    <view class="section-title">基本信息</view>
+    <view class="info-item" wx:if="{{filmData.director}}">
+      <view class="info-label">导演</view>
+      <view class="info-value">{{filmData.director.join(' / ')}}</view>
+    </view>
+    <view class="info-item" wx:if="{{filmData.actor}}">
+      <view class="info-label">主演</view>
+      <view class="info-value">{{filmData.actor.slice(0, 5).join(' / ')}}</view>
+    </view>
+    <view class="info-item" wx:if="{{filmData.countries}}">
+      <view class="info-label">国家/地区</view>
+      <view class="info-value">{{filmData.countries.join(' / ')}}</view>
+    </view>
+    <view class="info-item" wx:if="{{filmData.languages}}">
+      <view class="info-label">语言</view>
+      <view class="info-value">{{filmData.languages.join(' / ')}}</view>
+    </view>
+    <view class="info-item" wx:if="{{filmData.pubdates}}">
+      <view class="info-label">上映日期</view>
+      <view class="info-value">{{filmData.pubdates.join('、')}}</view>
+    </view>
+  </view>
+  
+  <!-- 加载提示 -->
+  <view wx:if="{{isLoading}}" class="loading">加载中...</view>
+</view>

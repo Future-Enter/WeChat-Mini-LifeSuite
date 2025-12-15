@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "豆瓣电影TOP250",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#f5f5f5",
+  "usingComponents": {}
+}

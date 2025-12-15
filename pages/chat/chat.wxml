@@ -1,0 +1,108 @@
+<!-- pages/chat/chat.wxml -->
+<view class="chat-container">
+  <!-- 顶部标题栏 -->
+  <view class="header">
+    <text class="title">AI对话助手</text>
+    <view class="header-actions">
+      <button class="clear-btn" bindtap="clearChat" size="mini" plain hover-class="clear-btn-hover">
+        清空对话
+      </button>
+    </view>
+  </view>
+
+  <!-- 聊天消息区域 -->
+  <scroll-view 
+    class="message-list" 
+    scroll-y 
+    scroll-with-animation 
+    scroll-top="{{scrollTop}}"
+    enhanced
+    bindscroll="onScroll"
+  >
+    <view class="message-wrapper">
+      <block wx:for="{{messages}}" wx:key="index">
+        <!-- AI消息 -->
+        <view wx:if="{{item.role === 'assistant'}}" class="message-row ai-message">
+          <view class="message-bubble ai-bubble">
+            <text class="message-content">{{item.content}}</text>
+            <view class="message-footer">
+              <text class="message-time">{{item.time}}</text>
+              <text class="message-role">AI助手</text>
+            </view>
+          </view>
+          <view class="message-actions">
+            <button 
+              class="copy-btn" 
+              size="mini" 
+              bindtap="copyMessage" 
+              data-content="{{item.content}}"
+              plain
+            >
+              复制
+            </button>
+          </view>
+        </view>
+        
+        <!-- 用户消息 -->
+        <view wx:else class="message-row user-message">
+          <view class="message-actions">
+            <button 
+              class="copy-btn" 
+              size="mini" 
+              bindtap="copyMessage" 
+              data-content="{{item.content}}"
+              plain
+            >
+              复制
+            </button>
+          </view>
+          <view class="message-bubble user-bubble">
+            <text class="message-content">{{item.content}}</text>
+            <view class="message-footer">
+              <text class="message-role">我</text>
+              <text class="message-time">{{item.time}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      
+      <!-- 加载指示器 -->
+      <view wx:if="{{isLoading}}" class="message-row ai-message">
+        <view class="message-bubble ai-bubble">
+          <view class="loading-indicator">
+            <text class="loading-text">AI正在思考</text>
+            <view class="loading-dots">
+              <view class="dot"></view>
+              <view class="dot"></view>
+              <view class="dot"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 空白区域，用于滚动定位 -->
+      <view id="bottom-anchor"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <input 
+      class="input" 
+      placeholder="{{isLoading ? 'AI正在思考中...' : '请输入您的问题'}}" 
+      value="{{inputValue}}" 
+      bindinput="onInput" 
+      bindconfirm="handleSend"
+      confirm-type="send"
+      disabled="{{isLoading}}"
+      focus="{{autoFocus}}"
+    />
+    <button
+      class="send-btn {{canSend ? '' : 'send-btn-disabled'}}"
+      bindtap="handleSend"
+      disabled="{{!canSend}}"
+    >
+      <view class="send-icon">↑</view>
+    </button>
+  </view>
+</view>

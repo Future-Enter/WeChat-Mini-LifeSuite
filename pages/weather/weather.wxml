@@ -1,0 +1,137 @@
+<!--pages/weather/weather.wxml-->
+<!-- 导入模板文件 -->
+<import src="templates.wxml" />
+
+<view class="container">
+  <!-- 搜索区域 -->
+  <view class="search-section">
+    <view class="search-card">
+      <form bindsubmit="searchCity">
+        <view class="search-inputs">
+          <view class="input-item">
+            <text class="input-label">省份</text>
+            <input 
+              name="province" 
+              placeholder="如：黑龙江省" 
+              value="{{formData.province}}"
+              bindinput="onInputChange"
+              data-field="province"
+              class="search-input"
+            />
+          </view>
+          <view class="input-item">
+            <text class="input-label">城市</text>
+            <input 
+              name="city" 
+              placeholder="如：哈尔滨" 
+              value="{{formData.city}}"
+              bindinput="onInputChange"
+              data-field="city"
+              class="search-input"
+            />
+          </view>
+        </view>
+        <button 
+          form-type="submit" 
+          type="primary" 
+          size="default"
+          loading="{{isLoading}}"
+          class="search-btn"
+        >
+          <text class="btn-text">查询天气</text>
+          <text class="btn-icon">🔍</text>
+        </button>
+      </form>
+    </view>
+  </view>
+
+  <!-- 当前天气卡片 -->
+  <view class="weather-card" wx:if="{{weatherInfo}}">
+    <view class="card-header">
+      <view class="location-info">
+        <text class="city-name">{{LocationName}}</text>
+        <text class="weather-desc">{{weatherInfo.weather}}</text>
+      </view>
+      <view class="update-time">
+        <text>更新: {{weatherInfo.updateTime ? weatherInfo.updateTime.slice(11, 16) : ''}}</text>
+      </view>
+    </view>
+
+    <!-- 使用currentWeather模板 -->
+    <template is="currentWeather" data="{{...weatherInfo}}" />
+  </view>
+
+ <!-- 7天天气预报 - 左右滑动显示 -->
+<!-- 7天天气预报 - 左右滑动显示 -->
+<view class="forecast-section" wx:if="{{dailyForecast.length > 0}}">
+  <view class="section-header">
+    <text class="section-title">7天预报</text>
+    <text class="section-subtitle">左右滑动查看更多</text>
+  </view>
+
+  <view class="forecast-scroll-container">
+    <scroll-view 
+      class="forecast-scroll" 
+      scroll-x="true" 
+      enhanced="true" 
+      show-scrollbar="{{false}}"
+      bindscroll="onScroll"
+      scroll-left="{{scrollLeft}}"
+    >
+      <view class="forecast-list">
+        <block wx:for="{{dailyForecast}}" wx:key="index">
+          <view class="forecast-item {{item.isToday ? 'today' : ''}} {{item.isTomorrow ? 'tomorrow' : ''}}">
+            <!-- 日期信息 -->
+            <view class="forecast-date">
+              <text class="day-week">{{item.isToday ? '今天' : item.isTomorrow ? '明天' : item.week}}</text>
+              <text class="day-date">{{item.date}}</text>
+              <view class="today-indicator" wx:if="{{item.isToday}}">
+                <text>今日</text>
+              </view>
+            </view>
+            
+            <!-- 天气图标和描述 -->
+            <view class="forecast-weather">
+              <image class="weather-icon" src="/res/icons/{{item.iconDay}}.svg" mode="aspectFit" />
+              <text class="weather-text">{{item.weather}}</text>
+            </view>
+
+            <!-- 温度范围 -->
+            <view class="temperature-range">
+              <text class="temp-high">{{item.tempMax}}°</text>
+              <text class="temp-low">{{item.tempMin}}°</text>
+            </view>
+
+            <!-- 天气详情 -->
+            <view class="forecast-details">
+              <text class="precip">💧 {{item.precip}}%</text>
+              <text class="wind">💨 {{item.windScaleDay}}级</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+    
+    <!-- 滑动指示器 -->
+    <!-- 滑动指示器 -->
+<view class="section-indicator">
+  <text class="indicator-dot {{indicatorDots[0] ? 'active' : ''}}"></text>
+  <text class="indicator-dot {{indicatorDots[1] ? 'active' : ''}}"></text>
+  <text class="indicator-dot {{indicatorDots[2] ? 'active' : ''}}"></text>
+</view>
+    
+  </view>
+</view>
+
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text>正在获取天气数据...</text>
+  </view>
+
+  <!-- 无数据提示 -->
+  <view class="empty-state" wx:if="{{!weatherInfo && !isLoading}}">
+    <text class="empty-icon">🌤️</text>
+    <text class="empty-text">输入城市名称查看天气</text>
+  </view>
+</view>

@@ -1,0 +1,116 @@
+<!-- 页面容器 -->
+<view class="container">
+  <!-- 方案四：创意设计（列表纸风格）标题区域 -->
+  <view class="header-notepad">
+    <!-- 列表纸效果 -->
+    <view class="notepad-lines">
+      <view class="line"></view>
+      <view class="line"></view>
+      <view class="line"></view>
+      <view class="line"></view>
+    </view>
+    
+    <!-- 打孔效果 -->
+    <view class="hole left"></view>
+    <view class="hole right"></view>
+    
+    <view class="title-notepad">
+      <text class="main-title">MY TODO LIST</text>
+      <view class="sub-title-row">
+        <view class="dash-line"></view>
+        <text class="sub-title">专注每一件重要的事</text>
+        <view class="dash-line"></view>
+      </view>
+      
+      <!-- 完成统计 -->
+      <view class="completion-stats">
+        <view class="stat-circle">
+          <view class="circle-progress">
+            <view 
+              class="progress-fill"
+              style="transform: rotate({{progressAngle}}deg)"
+            ></view>
+          </view>
+          <text class="percentage">{{progressPercent}}%</text>
+        </view>
+        <view class="stat-info">
+          <text class="stat-desc">今日进度</text>
+          <text class="stat-detail">已完成 {{completedCount}} 项</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 待办事项列表 -->
+  <view class="todo-list">
+    <view 
+      wx:for="{{todos}}" 
+      wx:for-index="index" 
+      wx:for-item="item" 
+      wx:key="index"
+      class="todo-card {{item.completed ? 'completed' : ''}}"
+      data-index="{{index}}"
+      bindtouchstart="onTouchStart"
+      bindtouchmove="onTouchMove"
+      bindtouchend="onTouchEnd"
+      bindtouchcancel="onTouchCancel"
+      bindlongpress="onLongPress"
+    >
+      <!-- 左侧完成背景（向右滑动时显示） -->
+      <view class="slide-bg complete-bg {{item.showComplete ? 'show' : ''}}" 
+            data-index="{{index}}"
+            bindtap="confirmComplete">
+        <text class="slide-text">完成</text>
+        <text class="slide-icon">✓</text>
+      </view>
+      
+      <!-- 右侧删除背景（向左滑动时显示） -->
+      <view class="slide-bg delete-bg {{item.showDelete ? 'show' : ''}}" 
+            data-index="{{index}}"
+            bindtap="confirmDelete">
+        <text class="slide-text">删除</text>
+      </view>
+      
+      <!-- 卡片内容（可滑动） -->
+      <view class="card-content {{item.swipeClass || ''}}" 
+            style="transform: translateX({{item.swipeOffset || 0}}px)">
+        <!-- 左侧复选框区域 -->
+        <view class="checkbox-container">
+          <view 
+            class="custom-checkbox {{item.completed ? 'checked' : ''}}"
+            bindtap="toggleTodo"
+            data-index="{{index}}"
+          >
+            <text class="checkmark" wx:if="{{item.completed}}">✓</text>
+          </view>
+        </view>
+        
+        <!-- 中间内容区域 -->
+        <view class="text-container">
+          <text class="todo-number">{{index+1}}号</text>
+          <text class="todo-text {{item.completed ? 'completed-text' : ''}}">{{item.text}}</text>
+        </view>
+        
+        <!-- 右侧状态指示器 -->
+        <view class="status-indicator">
+          <view class="status-dot {{item.completed ? 'completed-dot' : 'pending-dot'}}"></view>
+          <text class="status-text">{{item.completed ? '已完成' : '进行中'}}</text>
+        </view>
+      </view>
+      
+      <!-- 装饰性线条 -->
+      <view class="card-bottom-line"></view>
+    </view>
+  </view>
+  
+  <!-- 空状态提示 -->
+  <view class="empty-state" wx:if="{{todos.length === 0}}">
+    <text class="empty-text">还没有待办事项，添加一个吧！</text>
+  </view>
+  
+  <!-- 添加新待办按钮 -->
+  <view class="add-todo-btn" bindtap="addNewTodo">
+    <text class="add-icon">+</text>
+    <text class="add-text">添加新待办</text>
+  </view>
+</view>
