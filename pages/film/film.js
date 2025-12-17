@@ -34,7 +34,7 @@ Page({
     const start = currentPage * (pageSize / 25); // 转换为API的start参数
     
     wx.request({
-      url: 'http://localhost:5000/api/douban/list', // 替换为你的API地址
+      url: 'http://ip:5000/api/douban/list', // 替换为你的API地址
       method: 'GET',
       data: {
         listname: 'top250',

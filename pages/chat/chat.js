@@ -13,7 +13,7 @@ Page({
     // 配置信息 - 请根据你的实际情况修改
     apiConfig: {
       apiUrl: 'https://api.deepseek.com/chat/completions',
-      apiKey: 'sk-a0d74b30f7044d0aad2ba893f3a7b946', // 请替换为你的API Key
+      apiKey: '你的API Key', // 请替换为你的API Key
       model: 'deepseek-chat',
     }
   },

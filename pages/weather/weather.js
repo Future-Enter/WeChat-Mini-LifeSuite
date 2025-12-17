@@ -3,8 +3,8 @@ Page({
   data: {
     LocationName: "道外区",
     LocationId: "101050101",
-    API_Host: "https://nj3aapyvm6.re.qweatherapi.com",
-    API_key: "f889a2b2c7ab4251aef91dac3a9f6e12",
+    API_Host: "你的API URL",
+    API_key: "你的API KEY",
     formData: {
       province: "",
       city: ""

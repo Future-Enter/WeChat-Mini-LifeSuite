@@ -25,7 +25,7 @@ Page({
     });
     
     wx.request({
-      url: 'http://localhost:5000/api/douban/movie', // 替换为你的API地址
+      url: 'http://ip:5000/api/douban/movie', // 替换为你的API地址
       method: 'GET',
       data: { id: id },
       success: (res) => {
